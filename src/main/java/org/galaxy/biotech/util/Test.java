@@ -7,7 +7,6 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import org.galaxy.biotech.Biotech;
 import org.galaxy.biotech.api.init.DataAttachmentInit;
-import org.galaxy.biotech.capabilities.EntityGeneDataProvider;
 
 @EventBusSubscriber(modid = Biotech.MODID)
 public class Test {
