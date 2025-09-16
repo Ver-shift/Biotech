@@ -1,6 +1,7 @@
 package org.galaxy.biotech;
 
 import com.mojang.logging.LogUtils;
+import net.minecraft.resources.ResourceLocation;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.common.Mod;
 import org.galaxy.biotech.api.init.AttributeInit;
@@ -14,6 +15,13 @@ public class Biotech {
 
     public static final String MODID = "biotech";
 
+    public static ResourceLocation id(String path) {
+        return ResourceLocation.fromNamespaceAndPath(MODID, path);
+    }
+
+    public static ResourceLocation cid(String path) {
+        return ResourceLocation.fromNamespaceAndPath("c", path);
+    }
 
 
     public Biotech(IEventBus eventBus){

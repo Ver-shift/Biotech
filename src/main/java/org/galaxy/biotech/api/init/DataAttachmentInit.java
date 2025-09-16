@@ -8,7 +8,7 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 import net.neoforged.neoforge.registries.NeoForgeRegistries;
 import org.galaxy.biotech.Biotech;
 import org.galaxy.biotech.api.entityGene.EntityGeneData;
-import org.galaxy.biotech.capabilities.EntityGeneDataProvider;
+import org.galaxy.biotech.common.capabilities.EntityGeneDataProvider;
 
 public class DataAttachmentInit  {
     private static final DeferredRegister<AttachmentType<?>> ATTACHMENT_TYPES = DeferredRegister.create(NeoForgeRegistries.Keys.ATTACHMENT_TYPES, Biotech.MODID);

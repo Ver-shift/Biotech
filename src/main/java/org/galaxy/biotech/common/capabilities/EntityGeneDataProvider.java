@@ -1,4 +1,4 @@
-package org.galaxy.biotech.capabilities;
+package org.galaxy.biotech.common.capabilities;
 
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
