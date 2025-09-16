@@ -12,14 +12,7 @@ import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.registries.DataPackRegistryEvent;
-import net.neoforged.neoforge.registries.NewRegistryEvent;
-import net.neoforged.neoforge.registries.RegistryBuilder;
-import org.checkerframework.checker.units.qual.C;
 import org.galaxy.biotech.Biotech;
-
-import java.util.List;
-import java.util.UUID;
-import java.util.function.Supplier;
 
 /**
  * 基因序列检查器
@@ -73,11 +66,11 @@ public record GeneSequenceChecker(
             );
 
 
-    public static final ResourceKey<Registry<GeneSequenceChecker>> GENE_CHECKED =
+    public static final ResourceKey<Registry<GeneSequenceChecker>> GENE_CHECKER =
             ResourceKey.createRegistryKey(Biotech.id("gene_checker"));
     public static void neoRegistry(DataPackRegistryEvent.NewRegistry event) {
         event.dataPackRegistry(
-                GENE_CHECKED,
+                GENE_CHECKER,
                 CODEC,
                 CODEC,
                 b -> b.sync(true)
