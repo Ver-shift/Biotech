@@ -1,12 +1,9 @@
 package org.galaxy.biotech;
 
-import com.mojang.logging.LogUtils;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.common.Mod;
-import org.galaxy.biotech.api.init.AttributeInit;
-import org.galaxy.biotech.api.init.DataAttachmentInit;
-import org.galaxy.biotech.api.init.ItemInit;
-import org.slf4j.Logger;
+import org.galaxy.biotech.api.init.AttributeRegistry;
+import org.galaxy.biotech.api.init.DataAttachmentRegistry;
 
 
 @Mod(Biotech.MODID)
@@ -17,8 +14,8 @@ public class Biotech {
 
 
     public Biotech(IEventBus eventBus){
-        DataAttachmentInit.register(eventBus);
-        ItemInit.register(eventBus);
-        AttributeInit.register(eventBus);
+        DataAttachmentRegistry.register(eventBus);
+        AttributeRegistry.register(eventBus);
+
     }
 }

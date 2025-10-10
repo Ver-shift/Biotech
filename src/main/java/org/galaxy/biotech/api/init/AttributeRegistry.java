@@ -12,8 +12,7 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 import org.galaxy.biotech.Biotech;
 
 @EventBusSubscriber(modid = Biotech.MODID)
-public class AttributeInit {
-    //初始化
+public class AttributeRegistry {
     private static final DeferredRegister<Attribute> ATTRIBUTES = DeferredRegister.create(Registries.ATTRIBUTE, Biotech.MODID);
 
     public static void register(IEventBus eventBus) {
@@ -25,25 +24,7 @@ public class AttributeInit {
         e.getTypes().forEach(entity -> ATTRIBUTES.getEntries().forEach(attribute -> e.add(entity, attribute)));
     }
 
-
-    //正式版本
-
-
-
-
-
-
-
-    public static final DeferredHolder<Attribute, Attribute> MAX_COMPLEXITY;
-//    public static final DeferredHolder<Attribute, Attribute> MAX_METABOLIC_RATE;
-
-    static {
-        MAX_COMPLEXITY = ATTRIBUTES.register("max_complexity",() -> new RangedAttribute(
-                "attribute.biotech.max_complexity",0,0,10000).setSyncable(true));
-
-//        MAX_METABOLIC_RATE = ATTRIBUTES.register("max_metabolic_rate",()->new RangedAttribute(
-//                "attribute.biotech.max_metabolic_rate",0,-10000,10000).setSyncable(true));
-}
-
+    public static final DeferredHolder<Attribute, Attribute> MAX_POWER = ATTRIBUTES.register("max_power",
+            () -> (new RangedAttribute("attribute.biotech.max_power", 10.0D, 0.0D, 1000000.0D).setSyncable(true)));
 
 }

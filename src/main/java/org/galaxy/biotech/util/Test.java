@@ -6,8 +6,8 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import org.galaxy.biotech.Biotech;
-import org.galaxy.biotech.api.init.DataAttachmentInit;
-import org.galaxy.biotech.capabilities.EntityGeneDataProvider;
+import org.galaxy.biotech.api.init.DataAttachmentRegistry;
+import org.galaxy.biotech.api.power.PowerData;
 
 @EventBusSubscriber(modid = Biotech.MODID)
 public class Test {
@@ -15,16 +15,17 @@ public class Test {
     @SubscribeEvent
     public static void printGenData(PlayerInteractEvent.RightClickItem event){
         if (true){
-            if (event.getEntity() instanceof ServerPlayer serverPlayer){
-                if (serverPlayer.getMainHandItem().getItem() == Items.STICK) {
-                    var aaa =  serverPlayer.getData(DataAttachmentInit.ENTITY_GENE_DATA);
-
-
-                    DeBug.LOGGER.info("Complexity: " + aaa.getComplexity());
-                    DeBug.LOGGER.info("Genes: " + aaa.getMetabolicRate());
-                }
+            var player = event.getEntity();
+            if (player instanceof ServerPlayer serverPlayer){
+                var aaa = serverPlayer.getData(DataAttachmentRegistry.POWER_DATA);
+                Float aa = aaa.getPower();
+                String  a = aa.toString();
+                DeBug.LOGGER.info(a);
+                aaa.addPower(1);
             }
+
         }
+
 
     }
 }
