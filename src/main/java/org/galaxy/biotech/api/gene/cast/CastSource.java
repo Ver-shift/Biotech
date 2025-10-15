@@ -5,6 +5,10 @@ import io.redspace.ironsspellbooks.config.ServerConfigs;
 public enum CastSource {
 
     NONE,
+    SWORD,
+    STAFF,
+    BOW,
+    COMMAND,
     MOB,
     PLAYER,
 
