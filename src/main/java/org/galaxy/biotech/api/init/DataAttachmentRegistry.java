@@ -12,10 +12,12 @@ import org.galaxy.biotech.api.power.PowerData;
 
 public class DataAttachmentRegistry {
     private static final DeferredRegister<AttachmentType<?>> ATTACHMENT_TYPES = DeferredRegister.create(NeoForgeRegistries.ATTACHMENT_TYPES, Biotech.MODID);
-
     public static void register(IEventBus eventBus) {
         ATTACHMENT_TYPES.register(eventBus);
     }
+
+
+
 
     public static final DeferredHolder<AttachmentType<?>, AttachmentType<PowerData>> POWER_DATA = ATTACHMENT_TYPES.register("power_data",
             () -> AttachmentType.builder((holder) -> holder instanceof ServerPlayer serverPlayer ? new PowerData(serverPlayer) : new PowerData())

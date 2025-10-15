@@ -2,8 +2,7 @@ package org.galaxy.biotech;
 
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.common.Mod;
-import org.galaxy.biotech.api.init.AttributeRegistry;
-import org.galaxy.biotech.api.init.DataAttachmentRegistry;
+import org.galaxy.biotech.api.init.*;
 
 
 @Mod(Biotech.MODID)
@@ -16,6 +15,8 @@ public class Biotech {
     public Biotech(IEventBus eventBus){
         DataAttachmentRegistry.register(eventBus);
         AttributeRegistry.register(eventBus);
-
+        CreativeTabRegistry.register(eventBus);
+        ItemRegistry.register(eventBus);
+        SpeciesTypeRegistry.register(eventBus);
     }
 }

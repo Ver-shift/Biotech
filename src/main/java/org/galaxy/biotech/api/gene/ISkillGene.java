@@ -4,6 +4,6 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
 import org.galaxy.biotech.api.gene.cast.CastSource;
 
-public abstract class SkillGene extends AbstractGene implements ISkillGene{
-    //必定释放技能，不一定消耗能量。
+public interface ISkillGene {
+    void onCastSkill(Level level, int skillLevel, LivingEntity livingEntity, CastSource castSource);
 }

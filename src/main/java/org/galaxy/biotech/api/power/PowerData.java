@@ -8,7 +8,7 @@ import org.galaxy.biotech.api.event.ChangePowerEvent;
 import org.galaxy.biotech.api.init.AttributeRegistry;
 
 public class PowerData {
-
+    //基因能量值
     private boolean isMob = false;
 
     public PowerData(boolean isMob) {
@@ -40,12 +40,20 @@ public class PowerData {
         if (this.serverPlayer == null || !NeoForge.EVENT_BUS.post(e).isCanceled()) {
             float newPower = e.getNewPower();
 
-            // 如果有serverPlayer，先检查上限再设置power
+            // 检查上限：如果有 serverPlayer 使用属性值，否则使用默认上限 10.0
+            float maxPower = 10.0f; // 默认上限
             if (this.serverPlayer != null) {
-                float maxPower = (float) serverPlayer.getAttributeValue(AttributeRegistry.MAX_POWER);
-                if (newPower > maxPower) {
-                    newPower = maxPower;
-                }
+                maxPower = (float) serverPlayer.getAttributeValue(AttributeRegistry.MAX_POWER);
+            }
+
+            // 无论何时都要检查上限
+            if (newPower > maxPower) {
+                newPower = maxPower;
+            }
+
+            // 同时确保不会设置负值
+            if (newPower < 0) {
+                newPower = 0;
             }
 
             this.power = newPower;

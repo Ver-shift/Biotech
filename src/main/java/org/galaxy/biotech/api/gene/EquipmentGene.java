@@ -1,6 +1,8 @@
 package org.galaxy.biotech.api.gene;
 
 import net.minecraft.world.entity.animal.Panda;
+import org.galaxy.biotech.api.attribute.IAttributeGene;
 
-public class EquipmentGene extends AbstractGene {
+public abstract class EquipmentGene extends AbstractGene implements IAttributeGene {
+    //必定有属性的加减。
 }
