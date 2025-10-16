@@ -7,6 +7,8 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import net.minecraft.world.entity.ai.attributes.AttributeMap;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import org.galaxy.biotech.api.gene.cast.CastType;
@@ -17,12 +19,17 @@ public abstract class AbstractGene {
 
 
     //基础
-    protected ResourceLocation textureId;                   //图片
+    protected ResourceLocation textureId;                   //图片还有标识符
     protected Component geneDisplayerName = null;           //名字
     protected SpeciesType speciesType = null;               //种族
     protected Component description = null;                 //描述
     protected AbstractGene prerequisiteGene = null;
     private boolean locked = true; //前置基因
+
+
+    public ResourceLocation getTextureId() {
+        return textureId;
+    }
 
     //数值
     protected int maxLevel = 3;                             //最大基因能够升级的等级
@@ -39,16 +46,33 @@ public abstract class AbstractGene {
     protected int powerCostPerLevel = 0;                    //每级增加的能量消耗
 
 
-    //属性
-    protected AttributeModifier modifier = null;
-
-
+    //属性===================================================
     private final Map<Holder<Attribute>, MobEffect.AttributeTemplate> attributeModifiers = new Object2ObjectOpenHashMap();
-
 
     public void attributeModifier(Holder<Attribute> attribute, ResourceLocation id, double amount, AttributeModifier.Operation operation){
         this.attributeModifiers.put(attribute, new MobEffect.AttributeTemplate(id, amount, operation));
     }
+
+    //装备时触发
+    public void addAttributeModifiers(AttributeMap attributeMap, int amplifier) {
+        for(Map.Entry<Holder<Attribute>, MobEffect.AttributeTemplate> entry : this.attributeModifiers.entrySet()) {
+            AttributeInstance attributeinstance = attributeMap.getInstance((Holder)entry.getKey());
+            if (attributeinstance != null) {
+                attributeinstance.removeModifier(((MobEffect.AttributeTemplate)entry.getValue()).id());
+                attributeinstance.addPermanentModifier(((MobEffect.AttributeTemplate)entry.getValue()).create(amplifier));
+            }
+        }
+    }
+    //脱下时移除
+    public void removeAttributeModifiers(AttributeMap attributeMap) {
+        for(Map.Entry<Holder<Attribute>, MobEffect.AttributeTemplate> entry : this.attributeModifiers.entrySet()) {
+            AttributeInstance attributeinstance = attributeMap.getInstance((Holder)entry.getKey());
+            if (attributeinstance != null) {
+                attributeinstance.removeModifier(((MobEffect.AttributeTemplate)entry.getValue()).id());
+            }
+        }
+    }
+
     //id
     //数值(最大等级，冷却，派系)
     //技能通用描述
