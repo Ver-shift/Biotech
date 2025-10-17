@@ -18,5 +18,6 @@ public class Biotech {
         CreativeTabRegistry.register(eventBus);
         ItemRegistry.register(eventBus);
         SpeciesTypeRegistry.register(eventBus);
+        DataComponentRegistry.register(eventBus);
     }
 }
