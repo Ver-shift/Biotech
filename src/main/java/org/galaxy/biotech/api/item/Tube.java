@@ -1,6 +1,5 @@
 package org.galaxy.biotech.api.item;
 
-import io.redspace.ironsspellbooks.api.spells.ISpellContainer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.LivingEntity;
@@ -10,7 +9,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.level.Level;
-import org.galaxy.biotech.api.gene.AbstractGene;
 
 public class Tube extends Item {
     public Tube() {

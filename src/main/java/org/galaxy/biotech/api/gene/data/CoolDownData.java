@@ -1,9 +1,7 @@
 package org.galaxy.biotech.api.gene.data;
 
 import com.google.common.collect.Maps;
-import io.redspace.ironsspellbooks.api.spells.AbstractSpell;
-import io.redspace.ironsspellbooks.capabilities.magic.CooldownInstance;
-import org.galaxy.biotech.api.gene.AbstractGene;
+import org.galaxy.biotech.api.gene.Gene;
 
 import java.util.Map;
 
@@ -52,7 +50,7 @@ public class CoolDownData {
     public CoolDownData() {
         this.cooldowns = Maps.newHashMap();
     }
-    public boolean isOnCooldown(AbstractGene gene) {
+    public boolean isOnCooldown(Gene gene) {
         return cooldowns.containsKey(gene.getTextureId());
     }
 
@@ -69,13 +67,13 @@ public class CoolDownData {
     public Map<String, CooldownInstance> getCooldowns() {
         return cooldowns;
     }
-    public void addCooldown(AbstractGene gene,int durationTick){
+    public void addCooldown(Gene gene, int durationTick){
         cooldowns.put(gene.getTextureId().toString(),new CooldownInstance(durationTick));
     }
-    public void addCooldown(AbstractGene gene,int durationTick,int remaining){
+    public void addCooldown(Gene gene, int durationTick, int remaining){
         cooldowns.put(gene.getTextureId().toString(),new CooldownInstance(durationTick,remaining));
     }
-    public void removeCooldown(AbstractGene gene,int durationTick){
+    public void removeCooldown(Gene gene, int durationTick){
 
     }
     public void clearCooldowns(){

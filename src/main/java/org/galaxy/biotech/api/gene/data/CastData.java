@@ -3,8 +3,7 @@ package org.galaxy.biotech.api.gene.data;
 import io.redspace.ironsspellbooks.api.spells.CastSource;
 import io.redspace.ironsspellbooks.api.spells.CastType;
 import io.redspace.ironsspellbooks.api.spells.ICastData;
-import net.minecraft.world.item.ItemStack;
-import org.galaxy.biotech.api.gene.AbstractGene;
+import org.galaxy.biotech.api.gene.Gene;
 import org.jetbrains.annotations.Nullable;
 
 public class CastData {
@@ -18,9 +17,9 @@ public class CastData {
     private CastSource castSource;
     private CastType castType;
     private @Nullable ICastData additionalCastData;
-    private AbstractGene castingGene;
+    private Gene castingGene;
 
-    public CastData(AbstractGene gene,int castSkillLevel,int castDuration,int castDurationRemaining,CastSource castSource,CastType castType) {
+    public CastData(Gene gene, int castSkillLevel, int castDuration, int castDurationRemaining, CastSource castSource, CastType castType) {
         this.castSkillLevel = castSkillLevel;
         this.castDuration = castDuration;
         this.castDurationRemaining = castDurationRemaining;

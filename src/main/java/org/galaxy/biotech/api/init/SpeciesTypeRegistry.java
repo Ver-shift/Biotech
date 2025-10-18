@@ -24,6 +24,7 @@ public class SpeciesTypeRegistry {
         SPECIES.register(eventBus);
     }
 
+    //根据id获取species实例。
 
     //注册
     public static final Supplier<SpeciesType> BEASTS;
@@ -31,7 +32,7 @@ public class SpeciesTypeRegistry {
     static {
         BEASTS = SPECIES.register("beasts",
                 () -> new SpeciesType(Component.translatable("species.biotech.beasts").withStyle(ChatFormatting.GOLD)
-                        ,ResourceLocation.fromNamespaceAndPath(Biotech.MODID,"beasts")));
+                        ,"beasts"));
 
     }
 }
