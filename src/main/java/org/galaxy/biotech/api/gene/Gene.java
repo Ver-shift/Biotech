@@ -2,26 +2,32 @@ package org.galaxy.biotech.api.gene;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import io.redspace.ironsspellbooks.api.config.DefaultConfig;
 import net.minecraft.core.component.*;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.common.MutableDataComponentHolder;
 import org.galaxy.biotech.Biotech;
 import org.jetbrains.annotations.Nullable;
 
-public class Gene implements MutableDataComponentHolder {
+import java.util.function.Consumer;
+
+public class Gene implements MutableDataComponentHolder{
 
 
     //不变量
     //id，种族，
 
     //改变量
-    //最大等级，稀有度，属性加成（gene内部处理）||主动，被动，
+    //最大等级，稀有度，属性加成（gene内部处理）power消耗值,消耗值每个等级||主动，被动，
 
     //基础构造方法
-    public Gene(String id, SpeciesType species, DataComponentType<?> component) {
-        this.geneId = id;
-        this.species = species;
+    public Gene(GeneConfig config) {
+        this.geneId = config.geneId;
+        this.species = config.species;
         this.texture = getTexture();
         this.components = new PatchedDataComponentMap(PatchedDataComponentMap.EMPTY);
     }
@@ -82,6 +88,8 @@ public class Gene implements MutableDataComponentHolder {
     private ResourceLocation texture; //由Id决定的图片路径
     private SpeciesType species;
     private String speciesId;
+    private GeneType geneType;
+
 
     public ResourceLocation getTexture() {
         return ResourceLocation.fromNamespaceAndPath(Biotech.MODID, "textures/gene/"+ getSpecies().getSpeciesId() + getGeneId() + ".png");
@@ -104,22 +112,96 @@ public class Gene implements MutableDataComponentHolder {
 
 
     //行为=============================================================
+    //装备时触发
+    void onEquip(){}
+    void onUnequip(Contexts contexts){}
+    void onEquipCast(Contexts contexts){
 
-    //主动==
-    //释放技能
-     public final void onCast(GeneInstance geneInstance){
-        //检测玩家身上的主动技能组件，触发对应技能(参数里面填需要触发的技能，伤害由组件决定)
-     }
-     //被动==
-     //事件触发，具体逻辑在注册的组件里面，调用这个方法，用于快速获取被动基因
-     public final void passive(GeneInstance geneInstance){
-
-     }
-
-     //常态==
-    public final void onEquip(GeneInstance geneInstance){
-        //检测玩家身上的常态组件，更改属性，
+    }
+    void onEquipTick(Contexts contexts,int realTick){
     }
 
 
+
+
+    record Contexts(LivingEntity livingEntity,Gene gene){
+
+    }
+
+    public static class GeneConfig{
+
+        private String geneId;
+        private SpeciesType species;
+        private GeneType geneType;
+        private DataComponentMap.Builder components;
+
+        public GeneConfig(Consumer<GeneConfig> intialize) throws RuntimeException {
+            intialize.accept(this);
+            build();
+        }
+        public GeneConfig(){
+            components = DataComponentMap.builder();
+        }
+
+        public GeneConfig geneId (String geneId){
+            this.geneId = geneId;
+            return this;
+        }
+
+        public GeneConfig speciesType(SpeciesType species){
+            this.species = species;
+            return this;
+        }
+
+        public GeneConfig geneType(GeneType geneType){
+            this.geneType = geneType;
+            return this;
+        }
+        public <T> GeneConfig component(DataComponentType<T> dataComponentType,T value){
+            components.set(dataComponentType,value);
+            return this;
+        }
+
+        public GeneConfig build() throws RuntimeException {
+            if (!this.validate())
+                throw new RuntimeException("You didn't define all config attributes!");
+            return this;
+        }
+
+        private boolean validate() {
+            return this.geneId != null && this.species != null && this.geneType != null;
+        }
+    }
+
+    public enum GeneType {
+        SPECIES_GENE("species", "种族基因"),
+        SKILL_GENE("skill", "技能基因"),
+        TALENT_GENE("talent", "天赋基因"),
+        EQUIP_GENE("equip", "装备基因");
+
+        private final String id;
+        private final String description;
+
+        GeneType(String id, String description) {
+            this.id = id;
+            this.description = description;
+        }
+
+        public String getId() {
+            return id;
+        }
+
+        public String getDescription() {
+            return description;
+        }
+
+        public static GeneType fromId(String id) {
+            for (GeneType type : values()) {
+                if (type.id.equals(id)) {
+                    return type;
+                }
+            }
+            return null;
+        }
+    }
 }
