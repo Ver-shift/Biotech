@@ -2,13 +2,9 @@ package org.galaxy.biotech.api.gene;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import io.redspace.ironsspellbooks.api.config.DefaultConfig;
 import net.minecraft.core.component.*;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.inventory.Slot;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.common.MutableDataComponentHolder;
 import org.galaxy.biotech.Biotech;
 import org.jetbrains.annotations.Nullable;
@@ -33,7 +29,7 @@ public class Gene implements MutableDataComponentHolder{
     }
 
     //发包用
-    public Gene(String id ,SpeciesType species,DataComponentPatch patch){
+    public Gene(String id , SpeciesType species, DataComponentPatch patch){
         this.geneId = id;
         this.species = species;
         this.texture = getTexture();
@@ -80,11 +76,11 @@ public class Gene implements MutableDataComponentHolder{
             ).apply(instance, Gene::new)
     );
 
-
+    public static final StreamCodec STREAM_CODEC;
 
 
     //基础信息==========================================================
-    private String geneId; //基因id，用于标识，以及快捷查找
+    private String geneId; //基因id，用于标识，以及快捷查找,还有翻译键
     private ResourceLocation texture; //由Id决定的图片路径
     private SpeciesType species;
     private String speciesId;
@@ -108,25 +104,24 @@ public class Gene implements MutableDataComponentHolder{
         return species.getSpeciesId();
     }
 
-
-
+    public GeneType getGeneType() {
+        return geneType;
+    }
 
     //行为=============================================================
     //装备时触发
-    void onEquip(){}
-    void onUnequip(Contexts contexts){}
-    void onEquipCast(Contexts contexts){
 
-    }
-    void onEquipTick(Contexts contexts,int realTick){
-    }
+//    void onEquip(Contexts contexts){}
+//    void onUnequip(Contexts contexts){}
+//    void onEquipCast(Contexts contexts){
+//
+//    }
+//    void onEquipTick(Contexts contexts,int realTick){
+//    }
 
 
 
 
-    record Contexts(LivingEntity livingEntity,Gene gene){
-
-    }
 
     public static class GeneConfig{
 

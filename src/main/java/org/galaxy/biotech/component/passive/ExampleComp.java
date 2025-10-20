@@ -5,16 +5,18 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
+import net.neoforged.bus.api.Event;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.living.LivingEvent;
 import org.galaxy.biotech.Biotech;
+import org.galaxy.biotech.api.gene.IGeneEventHandle;
 import org.galaxy.biotech.api.gene.IPassiveEvent;
 
 import java.util.Objects;
 
 @EventBusSubscriber(modid = Biotech.MODID)
-public class ExampleComp {
+public class ExampleComp implements IGeneEventHandle {
 
 
     private final int value1;
@@ -61,6 +63,7 @@ public class ExampleComp {
                     Codec.BOOL.fieldOf("value2").forGetter(ExampleComp::getValue2)
             ).apply(instance, ExampleComp::new)
     );
+
     public static final StreamCodec<ByteBuf, ExampleComp> BASIC_STREAM_CODEC = StreamCodec.composite(
             ByteBufCodecs.INT, ExampleComp::getValue1,
             ByteBufCodecs.BOOL, ExampleComp::getValue2,
@@ -68,4 +71,8 @@ public class ExampleComp {
     );
 
 
+    @Override
+    public void jump(Event event) {
+
+    }
 }
