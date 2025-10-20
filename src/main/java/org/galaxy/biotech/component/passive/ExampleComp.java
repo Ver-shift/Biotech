@@ -72,7 +72,9 @@ public class ExampleComp implements IGeneEventHandle {
 
 
     @Override
-    public void jump(Event event) {
-
+    public void death(Event event) {
+        IGeneEventHandle.super.death(event);
     }
+
+
 }

@@ -15,7 +15,8 @@ public class GeneEvent {
     public static void death(LivingDeathEvent event){
         var geneData = event.getEntity().getData(DataAttachmentRegistry.POWER_DATA);
 
-
-
+        if (geneData instanceof IGeneEventHandle<LivingDeathEvent> component){
+            component.death(event);
+        }
     }
 }

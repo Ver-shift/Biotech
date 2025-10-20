@@ -17,9 +17,11 @@ public class PowerData {
     public PowerData() {
         this(false);
     }
+
     public PowerData(float power) {
         this.power = power;
     }
+
     public PowerData(ServerPlayer player) {
         this(false);
         this.serverPlayer = player;
