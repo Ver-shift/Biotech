@@ -76,7 +76,7 @@ public class Gene implements MutableDataComponentHolder{
             ).apply(instance, Gene::new)
     );
 
-    public static final StreamCodec STREAM_CODEC;
+//    public static final StreamCodec STREAM_CODEC;
 
 
     //基础信息==========================================================
@@ -152,7 +152,7 @@ public class Gene implements MutableDataComponentHolder{
             this.geneType = geneType;
             return this;
         }
-        public <T> GeneConfig component(DataComponentType<T> dataComponentType,T value){
+        public <T> GeneConfig component(DataComponentType<T> dataComponentType){
             components.set(dataComponentType,value);
             return this;
         }

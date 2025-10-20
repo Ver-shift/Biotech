@@ -1,12 +1,23 @@
 package org.galaxy.biotech.api.gene;
 
-import net.neoforged.bus.api.Event;
+import net.neoforged.neoforge.event.entity.living.*;
+import net.neoforged.neoforge.event.entity.player.AttackEntityEvent;
 
-public interface IGeneEventHandle<T extends Event> {
-    default void death(T event){
+public interface IGeneEventHandle {
 
-    };
-    default void jump(T event){
+    // 死亡事件
+    default void death(LivingDeathEvent event) {
+    }
 
-    };
+    // 跳跃事件
+    default void jump(LivingEvent.LivingJumpEvent event) {
+    }
+
+    // 受伤事件 - 使用 LivingDamageEvent.Pre（伤害应用前，可修改）
+    default void hurt(LivingDamageEvent.Pre event) {
+    }
+
+    // 攻击事件
+    default void attack(AttackEntityEvent event) {
+    }
 }
