@@ -6,7 +6,6 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
-import org.galaxy.biotech.api.gene.IGeneEventHandle;
 import org.galaxy.biotech.util.DeBug;
 
 import java.util.Objects;
@@ -15,7 +14,7 @@ import java.util.Objects;
  * 再生能力 Component 示例
  * 演示如何实现 IGeneEventHandle 接口来处理事件
  */
-public class RegenerationComp implements IGeneEventHandle {
+public class RegenerationComp{
 
     private final float damageReduction; // 伤害减免百分比
 
@@ -28,7 +27,7 @@ public class RegenerationComp implements IGeneEventHandle {
     }
 
     // 实现受伤事件：减少伤害
-    @Override
+
     public void hurt(LivingDamageEvent.Pre event) {
         // 使用新的 API 获取和设置伤害
         float originalDamage = event.getNewDamage();

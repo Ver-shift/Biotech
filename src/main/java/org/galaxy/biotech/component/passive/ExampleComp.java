@@ -7,12 +7,11 @@ import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
 import net.neoforged.neoforge.event.entity.living.LivingEvent;
-import org.galaxy.biotech.api.gene.IGeneEventHandle;
 
 import java.util.Objects;
 
 // 移除 @EventBusSubscriber，因为现在通过 GeneEvent 统一触发
-public class ExampleComp implements IGeneEventHandle {
+public class ExampleComp{
 
     private final int value1;
     private final boolean value2;
@@ -47,7 +46,7 @@ public class ExampleComp implements IGeneEventHandle {
     }
 
     // 实现跳跃事件处理
-    @Override
+
     public void jump(LivingEvent.LivingJumpEvent event) {
         // 当装载了这个 component 的 gene 的玩家跳跃时触发
         System.out.println("玩家跳跃了！value1=" + value1 + ", value2=" + value2);
@@ -58,7 +57,7 @@ public class ExampleComp implements IGeneEventHandle {
     }
 
     // 实现死亡事件处理
-    @Override
+
     public void death(LivingDeathEvent event) {
         // 当装载了这个 component 的 gene 的玩家死亡时触发
         System.out.println("玩家死亡了！value1=" + value1);
