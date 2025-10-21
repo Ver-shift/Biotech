@@ -3,48 +3,52 @@ package org.galaxy.biotech.api.gene;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.component.*;
-import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.common.MutableDataComponentHolder;
+import net.neoforged.neoforge.registries.DeferredHolder;
 import org.galaxy.biotech.Biotech;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Consumer;
-
+import java.util.function.Supplier;
 public class Gene implements MutableDataComponentHolder{
 
+    //基础信息==========================================================
+    //不可变信息
+    private  ResourceLocation Id;                 //路径，标识符
+    private  SpeciesType species;                 //种族类型
+    private  GeneType geneType;                   //基因类型
 
-    //不变量
-    //id，种族，
+    //可变信息
+    private int maxGeneLevel;                            //基因等级
+    private GeneRarity rarity;                    //基因稀有度
+    private PatchedDataComponentMap components;   //组件：实现所有功能的核心
 
-    //改变量
-    //最大等级，稀有度，属性加成（gene内部处理）power消耗值,消耗值每个等级||主动，被动，
-
-    //基础构造方法
-    public Gene(GeneConfig config) {
-        this.geneId = config.geneId;
+    //不变信息初始化===================================================
+    public Gene(GeneConfig config){
+        // 从 config 中读取不可变信息
+        this.Id = config.id;
         this.species = config.species;
-        this.texture = getTexture();
-        this.components = new PatchedDataComponentMap(PatchedDataComponentMap.EMPTY);
+        this.geneType = config.geneType;
+
+        // 从 config 中读取可变信息
+        this.maxGeneLevel = config.maxGeneLevel;
+
+        // 从 config 的 Builder 中构建组件映射
+        DataComponentMap builtComponents = config.components.build();
+        this.components = new PatchedDataComponentMap(builtComponents);
+
+        // 初始化稀有度（可以后续通过其他方法设置）
+        this.rarity = null;
     }
 
-    //发包用
-    public Gene(String id , SpeciesType species, DataComponentPatch patch){
-        this.geneId = id;
-        this.species = species;
-        this.texture = getTexture();
-        this.components = PatchedDataComponentMap.fromPatch(DataComponentMap.EMPTY, patch);
+    //等级与稀有度控制=================================================
 
-    }
+
 
 
 
     //组件初始化======================================================
-    private PatchedDataComponentMap components;
-
-    public Gene(ResourceLocation resourceLocation, DataComponentPatch patch, String s, String s1) {
-
-    }
 
     @Override
     public PatchedDataComponentMap getComponents() {
@@ -67,79 +71,47 @@ public class Gene implements MutableDataComponentHolder{
         this.components.applyPatch(dataComponentPatch);
     }
 
-    public static final Codec<Gene> CODEC = RecordCodecBuilder.create(instance ->
-            instance.group(
-                    ResourceLocation.CODEC.fieldOf("geneTexture").forGetter(Gene::getTexture),
-                    DataComponentPatch.CODEC.optionalFieldOf("components",DataComponentPatch.EMPTY).forGetter(holder -> holder.components.asPatch()),
-                    Codec.STRING.fieldOf("geneId").forGetter(Gene::getGeneId),
-                    Codec.STRING.fieldOf("speciesId").forGetter(Gene::getSpeciesId)
-            ).apply(instance, Gene::new)
-    );
-
-//    public static final StreamCodec STREAM_CODEC;
-
-
-    //基础信息==========================================================
-    private String geneId; //基因id，用于标识，以及快捷查找,还有翻译键
-    private ResourceLocation texture; //由Id决定的图片路径
-    private SpeciesType species;
-    private String speciesId;
-    private GeneType geneType;
-
-
-    public ResourceLocation getTexture() {
-        return ResourceLocation.fromNamespaceAndPath(Biotech.MODID, "textures/gene/"+ getSpecies().getSpeciesId() + getGeneId() + ".png");
-    }
-
-    public String getGeneId() {
-        return geneId;
-    }
-
-    public SpeciesType getSpecies() {
-        return species;
-    }
-
-
-    public String getSpeciesId() {
-        return species.getSpeciesId();
-    }
-
-    public GeneType getGeneType() {
-        return geneType;
-    }
-
-    //行为=============================================================
-    //装备时触发
-
-//    void onEquip(Contexts contexts){}
-//    void onUnequip(Contexts contexts){}
-//    void onEquipCast(Contexts contexts){
-//
-//    }
-//    void onEquipTick(Contexts contexts,int realTick){
-//    }
 
 
 
 
+
+
+
+
+
+
+
+
+
+
+    //辅助类==========================================================
 
     public static class GeneConfig{
 
-        private String geneId;
+        private ResourceLocation id;
         private SpeciesType species;
         private GeneType geneType;
+        private int maxGeneLevel;
+
         private DataComponentMap.Builder components;
 
-        public GeneConfig(Consumer<GeneConfig> intialize) throws RuntimeException {
-            intialize.accept(this);
-            build();
-        }
+        // 默认构造函数
         public GeneConfig(){
             components = DataComponentMap.builder();
+            this.maxGeneLevel = 3; // 默认最大等级为3
         }
 
-        public GeneConfig geneId (String geneId){
-            this.geneId = geneId;
+        // 接受Consumer的构造函数，参考DefaultConfig模式
+        public GeneConfig(Consumer<GeneConfig> initialize) throws RuntimeException {
+            components = DataComponentMap.builder();
+            this.maxGeneLevel = 3; // 默认最大等级为3
+            initialize.accept(this);
+            build();
+        }
+
+        public GeneConfig ResourceLocation (ResourceLocation id){
+            this.id = id;
             return this;
         }
 
@@ -148,23 +120,44 @@ public class Gene implements MutableDataComponentHolder{
             return this;
         }
 
+        // 修复bug：应该设置传入的参数值而不是固定的1
+        public GeneConfig geneLevel(int maxGeneLevel){
+            this.maxGeneLevel = maxGeneLevel;
+            return this;
+        }
+
+        public GeneConfig speciesType(Supplier<SpeciesType> supplier){
+            this.species = supplier.get();
+            return this;
+        }
+
+
         public GeneConfig geneType(GeneType geneType){
             this.geneType = geneType;
             return this;
         }
-        public <T> GeneConfig component(DataComponentType<T> dataComponentType){
-            components.set(dataComponentType,value);
+
+        public <T> GeneConfig component(DataComponentType<T> dataComponentType, T value){
+            components.set(dataComponentType, value);
+            return this;
+        }
+
+        public <T> GeneConfig component(DeferredHolder<DataComponentType<?>, DataComponentType<T>> holder, T value){
+            components.set(holder.get(), value);
             return this;
         }
 
         public GeneConfig build() throws RuntimeException {
             if (!this.validate())
-                throw new RuntimeException("You didn't define all config attributes!");
+                throw new RuntimeException("You didn't define all required gene config attributes! Missing: " +
+                        (id == null ? "id " : "") +
+                        (species == null ? "species " : "") +
+                        (geneType == null ? "geneType " : ""));
             return this;
         }
 
         private boolean validate() {
-            return this.geneId != null && this.species != null && this.geneType != null;
+            return this.id != null && this.species != null && this.geneType != null;
         }
     }
 

@@ -6,7 +6,7 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
-import org.galaxy.biotech.util.DeBug;
+import org.galaxy.biotech.api.util.DeBug;
 
 import java.util.Objects;
 

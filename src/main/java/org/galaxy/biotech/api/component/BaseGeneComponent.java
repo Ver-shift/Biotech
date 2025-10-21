@@ -26,4 +26,6 @@ public abstract class BaseGeneComponent {
 
     public void onHeal(LivingHealEvent event) {}
 
+
+
 }

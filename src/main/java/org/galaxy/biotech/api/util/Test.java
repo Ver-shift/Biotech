@@ -1,13 +1,11 @@
-package org.galaxy.biotech.util;
+package org.galaxy.biotech.api.util;
 
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.item.Items;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import org.galaxy.biotech.Biotech;
 import org.galaxy.biotech.api.init.DataAttachmentRegistry;
-import org.galaxy.biotech.api.power.PowerData;
 
 @EventBusSubscriber(modid = Biotech.MODID)
 public class Test {

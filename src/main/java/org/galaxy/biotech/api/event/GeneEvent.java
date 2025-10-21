@@ -76,7 +76,7 @@ public class GeneEvent {
      * @param entity 触发事件的实体
      * @param handler 要执行的处理器方法引用
      */
-    private static void eventHandle(LivingEntity entity, Consumer<BaseGeneComponent> handler) {
+    public static void eventHandle(LivingEntity entity, Consumer<BaseGeneComponent> handler) {
         var components = getComponents(entity);
         if (components == null) return;
 

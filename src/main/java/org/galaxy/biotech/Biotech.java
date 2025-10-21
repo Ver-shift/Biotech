@@ -17,8 +17,8 @@ public class Biotech {
         AttributeRegistry.register(eventBus);
         CreativeTabRegistry.register(eventBus);
         ItemRegistry.register(eventBus);
-        SpeciesTypeRegistry.register(eventBus);
-        GeneDataComponentRegistry.ComponentReg.register(eventBus);
+        SpeciesReg.register(eventBus);
+        GeneComps.register(eventBus);
 
 
 

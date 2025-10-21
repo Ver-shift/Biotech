@@ -1,21 +1,21 @@
 package org.galaxy.biotech.api.init;
 
-import io.redspace.ironsspellbooks.IronsSpellbooks;
-import io.redspace.ironsspellbooks.api.spells.SchoolType;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Registry;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.bus.api.IEventBus;
-import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import org.galaxy.biotech.Biotech;
 import org.galaxy.biotech.api.gene.SpeciesType;
 
 import java.util.function.Supplier;
 
-public class SpeciesTypeRegistry {
+public class SpeciesReg {
+    //种族
+
+
 
     //初始化
     public static final ResourceKey<Registry<SpeciesType>> SPECIES_REGISTRY_KEY = ResourceKey.createRegistryKey(ResourceLocation.fromNamespaceAndPath(Biotech.MODID, "species"));

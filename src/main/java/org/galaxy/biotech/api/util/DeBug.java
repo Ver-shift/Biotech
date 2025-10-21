@@ -1,4 +1,4 @@
-package org.galaxy.biotech.util;
+package org.galaxy.biotech.api.util;
 
 import com.mojang.logging.LogUtils;
 import org.slf4j.Logger;
