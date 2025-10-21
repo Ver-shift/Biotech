@@ -77,10 +77,9 @@ public class GeneEvent {
      * @param handler 要执行的处理器方法引用
      */
     private static void eventHandle(LivingEntity entity, Consumer<BaseGeneComponent> handler) {
-        var geneData = entity.getData(DataAttachmentRegistry.GENE_DATA);
-        if (geneData.getGene() == null) return;
+        var components = getComponents(entity);
+        if (components == null) return;
 
-        var components = geneData.getGene().getComponents();
         components.forEach(component -> {
             Object value = component.value();
             if (value instanceof BaseGeneComponent comp) {
@@ -95,8 +94,11 @@ public class GeneEvent {
      * @return 基因组件映射，如果没有基因则返回 null
      */
     public static PatchedDataComponentMap getComponents(LivingEntity entity) {
+        if (entity == null) return null;
+
         var geneData = entity.getData(DataAttachmentRegistry.GENE_DATA);
-        if (geneData.getGene() == null) return null;
+        if (geneData == null || geneData.getGene() == null) return null;
+
         return geneData.getGene().getComponents();
     }
 
