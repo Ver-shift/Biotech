@@ -7,11 +7,13 @@ import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
 import net.neoforged.neoforge.event.entity.living.LivingEvent;
+import org.galaxy.biotech.api.component.BaseGeneComponent;
+import org.galaxy.biotech.util.DeBug;
 
 import java.util.Objects;
 
-// 移除 @EventBusSubscriber，因为现在通过 GeneEvent 统一触发
-public class ExampleComp{
+
+public class ExampleComp extends BaseGeneComponent {
 
     private final int value1;
     private final boolean value2;
@@ -45,23 +47,10 @@ public class ExampleComp{
         }
     }
 
-    // 实现跳跃事件处理
-
-    public void jump(LivingEvent.LivingJumpEvent event) {
-        // 当装载了这个 component 的 gene 的玩家跳跃时触发
-        System.out.println("玩家跳跃了！value1=" + value1 + ", value2=" + value2);
-        // 这里可以添加你的逻辑，例如给玩家额外的跳跃高度
-        event.getEntity().setDeltaMovement(
-                event.getEntity().getDeltaMovement().add(0, 0.2 * value1, 0)
-        );
-    }
-
-    // 实现死亡事件处理
-
-    public void death(LivingDeathEvent event) {
-        // 当装载了这个 component 的 gene 的玩家死亡时触发
-        System.out.println("玩家死亡了！value1=" + value1);
-        // 这里可以添加你的逻辑，例如死亡时掉落特殊物品
+    @Override
+    public void onDeath(LivingDeathEvent event) {
+        DeBug.LOGGER.info("hahahah");
+        super.onDeath(event);
     }
 
     public static final Codec<ExampleComp> BASIC_CODEC = RecordCodecBuilder.create(instance ->
